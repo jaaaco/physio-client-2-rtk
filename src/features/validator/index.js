@@ -55,8 +55,8 @@ const ValidatorMessage = ({ errors }) => (
           Formularz zawiera błędy
         </Message.Header>
         <ul>
-          {Object.values(errors).map(error => (
-            <li>{error}</li>
+          {Object.values(errors).map((error, key) => (
+            <li key={key}>{error}</li>
           ))}
         </ul>
       </Message>
