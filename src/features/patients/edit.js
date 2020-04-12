@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Grid, Form, Button, Icon } from 'semantic-ui-react'
 import { DateInput } from 'semantic-ui-calendar-react'
@@ -12,7 +12,10 @@ import {
   remove,
   selectors
 } from './slice'
-import { navigate } from '../navigation/slice'
+
+import {
+  navigate
+} from '../navigation/slice'
 
 const PatientEdit = () => {
   const dispatch = useDispatch()
@@ -55,6 +58,10 @@ const PatientEdit = () => {
     errors: {},
     values: initValues
   })
+
+  useEffect(() => {
+    setFields({ errors: {}, values: patient || initValues })
+  }, [patient])
   const handleChange = async (field, value) => {
     setFields(state => ({
       values: { ...state.values, [field]: value },
@@ -71,10 +78,13 @@ const PatientEdit = () => {
       }))
       return
     }
-    return dispatch(
+    dispatch(
       patient === undefined
         ? add(fields.values)
         : update({ _id, _rev, ...fields.values })
+    )
+    dispatch(
+      navigate()
     )
   }
 

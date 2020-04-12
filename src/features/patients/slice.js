@@ -4,10 +4,11 @@ import {
   createAsyncThunk
 } from '@reduxjs/toolkit'
 import PouchDb from 'pouchdb'
+import { navigate } from '../navigation/slice'
 
 const adapter = createEntityAdapter({
-  sortComparer: (a, b) => a.surname.localeCompare(b.title),
-  selectId: row => row._id
+  sortComparer: (a, b) => a.surname.localeCompare(b.surname),
+  selectId: ({ _id }) => _id
 })
 
 const db = new PouchDb('patients')
@@ -15,7 +16,6 @@ const db = new PouchDb('patients')
 const list = createAsyncThunk(
   'patients/list',
   async () => {
-    console.info('readibng')
     const response = await db.allDocs({
       include_docs: true,
       attachments: false
@@ -24,11 +24,49 @@ const list = createAsyncThunk(
   }
 )
 
-const detailsRequest = createAsyncThunk(
+const add = createAsyncThunk(
+  'patients/add',
+  async (payload, { dispatch }) => {
+    dispatch(navigate('PATIENT_DETAILS'))
+    const { id } = await db.post(payload)
+    return { ...payload, id }
+  }
+)
+
+const update = createAsyncThunk(
+  'patients/update',
+  async (payload, { dispatch }) => {
+    dispatch(navigate('PATIENT_DETAILS'))
+    await db.put(payload)
+    return payload
+  }
+)
+
+const details = createAsyncThunk(
   'patients/details',
-  async (id) => db.get(id, {
-    attachments: false
-  })
+  async (id, { dispatch }) => {
+    dispatch(navigate('PATIENT_DETAILS'))
+    return db.get(id, {
+      attachments: false
+    })
+  }
+)
+
+const newPatient = createAsyncThunk(
+  'patients/new',
+  async (_, { dispatch }) => {
+    dispatch(navigate('ADD_PATIENT'))
+  }
+)
+
+const editPatient = createAsyncThunk(
+  'patients/edit',
+  async (id, { dispatch }) => {
+    dispatch(navigate('ADD_PATIENT'))
+    return db.get(id, {
+      attachments: false
+    })
+  }
 )
 
 const slice = createSlice({
@@ -44,29 +82,42 @@ const slice = createSlice({
     remove: adapter.removeOne
   },
   extraReducers: {
-    [list.pending]: (state, action) => {
+    [list.pending]: state => {
       state.loading = true
     },
-    [list.fulfilled]: (state, action) => {
-      adapter.setAll(state, action.payload)
+    [list.fulfilled]: (state, { payload }) => {
+      adapter.setAll(state, payload)
       state.loading = false
     },
-    [detailsRequest.fulfilled]: (state, action) => {
-      state.current = action.payload
+    [details.pending]: state => {
+      state.current = undefined
+      state.loading = true
+    },
+    [details.fulfilled]: (state, { payload }) => {
+      state.current = payload
+      state.loading = false
+    },
+    [newPatient.fulfilled]: state => {
+      state.current = undefined
+    },
+    [editPatient.fulfilled]: (state, { payload }) => {
+      state.current = payload
+    },
+    [add.fulfilled]: (state, { payload }) => {
+      state.current = payload
+    },
+    [update.fulfilled]: (state, { payload }) => {
+      state.current = payload
     }
   }
 })
 
 export const {
-  add,
-  loading,
-  loaded,
-  update,
-  remove,
-  details
+  remove
 } = slice.actions
 
-export { list }
+// export thunk-generated actions
+export { update, add, list, details, newPatient, editPatient }
 
 export default slice.reducer
 export const selectors = {

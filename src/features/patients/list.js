@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
 import { Label, Table, Button, Header, Icon, Segment } from 'semantic-ui-react'
 import { useSelector, useDispatch } from 'react-redux'
-import { list, details, selectors } from './slice'
-import { navigate } from '../navigation/slice'
+import { list, details, selectors, newPatient } from './slice'
 
 const PatientList = () => {
   const dispatch = useDispatch()
@@ -23,7 +22,7 @@ const PatientList = () => {
         <Button
           data-cy="new-patient-hero"
           primary
-          onClick={() => dispatch(navigate('ADD_PATIENT'))}
+          onClick={() => dispatch(newPatient())}
         >
           <Icon name="add user" /> Dodaj pacjenta
         </Button>
@@ -40,7 +39,7 @@ const PatientList = () => {
         data-cy="new-patient"
         floated="right"
         primary
-        onClick={() => dispatch(navigate('ADD_PATIENT'))}
+        onClick={() => dispatch(newPatient())}
       >
         <Icon name="add user" /> Dodaj pacjenta
       </Button>

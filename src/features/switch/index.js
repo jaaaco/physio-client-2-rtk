@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { getNavigation } from '../navigation/slice'
-import { PatientEdit, PatientList } from '../patients'
+import { PatientEdit, PatientList, PatientDetails } from '../patients'
 // import PatientList from './Patient/PatientList'
 // import AppointmentList from './Appointment/AppointmentList'
 // import ScanList from './Scan/ScanList'
@@ -9,7 +9,6 @@ import { PatientEdit, PatientList } from '../patients'
 // import PatientEdit from './Patient/PatientEdit'
 // import Scanner from './Scanner/Scanner'
 // import { getCurrentPatient, getScreen } from '../redux/reducers'
-// import PatientDetails from './Patient/PatientDetails'
 // import AppointmentDetails from './Appointment/AppointmentDetails'
 // import AppointmentEdit from './Appointment/AppointmentEdit'
 // import Settings from './Settings'
@@ -21,6 +20,8 @@ const Switch = () => {
   switch (navigation) {
     case 'ADD_PATIENT':
       return <PatientEdit />
+    case 'PATIENT_DETAILS':
+      return <PatientDetails/>
     case 'PATIENT':
       return <PatientList />
     default:
