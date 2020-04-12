@@ -15,7 +15,8 @@ const db = new PouchDb('patients')
 
 const list = createAsyncThunk(
   'patients/list',
-  async () => {
+  async (_, { dispatch }) => {
+    dispatch(navigate('PATIENT'))
     const response = await db.allDocs({
       include_docs: true,
       attachments: false
@@ -37,6 +38,15 @@ const update = createAsyncThunk(
   'patients/update',
   async (payload, { dispatch }) => {
     dispatch(navigate('PATIENT_DETAILS'))
+    await db.put(payload)
+    return payload
+  }
+)
+
+const remove = createAsyncThunk(
+  'patients/remove',
+  async (payload, { dispatch }) => {
+    dispatch(navigate('PATIENT'))
     await db.put(payload)
     return payload
   }
@@ -66,6 +76,14 @@ const editPatient = createAsyncThunk(
     return db.get(id, {
       attachments: false
     })
+  }
+)
+
+const removePatient = createAsyncThunk(
+  'patients/remove',
+  async (resource, { dispatch }) => {
+    dispatch(navigate('PATIENT'))
+    return db.remove(resource)
   }
 )
 
@@ -108,16 +126,15 @@ const slice = createSlice({
     },
     [update.fulfilled]: (state, { payload }) => {
       state.current = payload
+    },
+    [removePatient.fulfilled]: (state, { payload }) => {
+      state.current = undefined
     }
   }
 })
 
-export const {
-  remove
-} = slice.actions
-
 // export thunk-generated actions
-export { update, add, list, details, newPatient, editPatient }
+export { update, add, remove, list, details, newPatient, editPatient }
 
 export default slice.reducer
 export const selectors = {

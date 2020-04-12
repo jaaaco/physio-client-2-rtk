@@ -5,7 +5,7 @@ import App from './App'
 import store from './store'
 import { Provider } from 'react-redux'
 import * as serviceWorker from './serviceWorker'
-
+import { list } from './features/patients/slice'
 ReactDOM.render(
   <Provider store={store}>
     <App />
@@ -17,3 +17,6 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister()
+
+// load patient list
+store.dispatch(list())

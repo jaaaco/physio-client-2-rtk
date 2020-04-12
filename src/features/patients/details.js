@@ -9,7 +9,7 @@ import {
   Icon,
   Segment
 } from 'semantic-ui-react'
-import { editPatient, selectors } from './slice'
+import { editPatient, list, selectors } from './slice'
 import { navigate } from '../navigation/slice'
 // import AppointmentList from '../Appointment/AppointmentList'
 
@@ -96,7 +96,7 @@ const PatientDetails = () => {
       </Grid>
       <Button
         data-cy="back-button"
-        onClick={() => dispatch(navigate('PATIENT'))}
+        onClick={() => dispatch(list())}
         basic
       >
         <Icon name="arrow left" /> Wróć

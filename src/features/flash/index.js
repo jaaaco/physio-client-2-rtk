@@ -1,12 +1,12 @@
 import React from 'react'
 import { Icon, Message } from 'semantic-ui-react'
 import './index.css'
-
-const removeFlashMessage = () => {}
+import { selectors, remove } from './slice'
+import { useSelector, useDispatch } from 'react-redux'
 
 const Flash = () => {
-  // const flashes = useSelector(getFlashes);
-  const flashes = false
+  const flashes = useSelector(selectors.flashes)
+  const dispatch = useDispatch()
   if (!flashes) {
     return null
   }
@@ -23,7 +23,7 @@ const Flash = () => {
       {flashes.map(({ id, type, text }) => (
         <Message
           onDismiss={
-            () => removeFlashMessage(id)
+            () => dispatch(remove({ id }))
           }
           icon
           key={id}

@@ -1,16 +1,12 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Label, Table, Button, Header, Icon, Segment } from 'semantic-ui-react'
 import { useSelector, useDispatch } from 'react-redux'
-import { list, details, selectors, newPatient } from './slice'
+import { details, selectors, newPatient } from './slice'
 
 const PatientList = () => {
   const dispatch = useDispatch()
   const patients = useSelector(selectors.selectAll)
   const loading = useSelector(selectors.loading)
-
-  useEffect(() => {
-    dispatch(list())
-  }, [dispatch])
 
   if (!patients.length) {
     return (

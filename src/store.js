@@ -1,5 +1,6 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
 import logger from './middlewares/logger'
+import flash from './middlewares/flash'
 import navigation from './features/navigation/slice'
 import patients from './features/patients/slice'
 
@@ -8,5 +9,5 @@ export default configureStore({
     navigation,
     patients
   },
-  middleware: [...getDefaultMiddleware(), logger]
+  middleware: [...getDefaultMiddleware(), logger, flash]
 })
