@@ -7,9 +7,7 @@ import moment from 'moment'
 import { ValidatorMessage, Validator } from '../validator'
 
 import {
-  add,
-  update,
-  remove,
+  actions,
   selectors
 } from './slice'
 
@@ -80,8 +78,8 @@ const PatientEdit = () => {
     }
     dispatch(
       patient === undefined
-        ? add(fields.values)
-        : update({ _id, _rev, ...fields.values })
+        ? actions.add(fields.values)
+        : actions.update({ _id, _rev, ...fields.values })
     )
     dispatch(
       navigate()
@@ -182,7 +180,7 @@ const PatientEdit = () => {
                 data-cy="patient-delete-button"
                 negative
                 onClick={() => {
-                  dispatch(remove(patient))
+                  dispatch(actions.remove(patient))
                   dispatch(navigate('PATIENT'))
                 }}
               >

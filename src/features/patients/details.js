@@ -9,7 +9,7 @@ import {
   Icon,
   Segment
 } from 'semantic-ui-react'
-import { editPatient, list, selectors } from './slice'
+import { actions, selectors } from './slice'
 import { navigate } from '../navigation/slice'
 // import AppointmentList from '../Appointment/AppointmentList'
 
@@ -48,7 +48,7 @@ const PatientDetails = () => {
                 floating
                 data-cy="dropdown-button-icon"
                 onChange={() => {
-                  dispatch(editPatient(patient._id))
+                  dispatch(actions.editPatient(patient._id))
                 }}
                 className="button icon"
                 options={[
@@ -96,7 +96,7 @@ const PatientDetails = () => {
       </Grid>
       <Button
         data-cy="back-button"
-        onClick={() => dispatch(list())}
+        onClick={() => dispatch(actions.list())}
         basic
       >
         <Icon name="arrow left" /> Wróć

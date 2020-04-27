@@ -1,7 +1,7 @@
 import React from 'react'
 import { Label, Table, Button, Header, Icon, Segment } from 'semantic-ui-react'
 import { useSelector, useDispatch } from 'react-redux'
-import { details, selectors, newPatient } from './slice'
+import { actions, selectors } from './slice'
 
 const PatientList = () => {
   const dispatch = useDispatch()
@@ -18,7 +18,7 @@ const PatientList = () => {
         <Button
           data-cy="new-patient-hero"
           primary
-          onClick={() => dispatch(newPatient())}
+          onClick={() => dispatch(actions.newPatient())}
         >
           <Icon name="add user" /> Dodaj pacjenta
         </Button>
@@ -35,7 +35,7 @@ const PatientList = () => {
         data-cy="new-patient"
         floated="right"
         primary
-        onClick={() => dispatch(newPatient())}
+        onClick={() => dispatch(actions.newPatient())}
       >
         <Icon name="add user" /> Dodaj pacjenta
       </Button>
@@ -66,7 +66,7 @@ const PatientList = () => {
             return (
               <Table.Row
                 data-cy="data-name-cell"
-                onClick={() => dispatch(details(_id))}
+                onClick={() => dispatch(actions.details(_id))}
                 key={_id}
               >
                 <Table.Cell>

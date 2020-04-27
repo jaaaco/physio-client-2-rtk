@@ -4,19 +4,12 @@ import {
   createAsyncThunk
 } from '@reduxjs/toolkit'
 import PouchDb from 'pouchdb'
-import { navigate } from '../navigation/slice'
-
-const adapter = createEntityAdapter({
-  sortComparer: (a, b) => a.surname.localeCompare(b.surname),
-  selectId: ({ _id }) => _id
-})
 
 const db = new PouchDb('patients')
 
 const list = createAsyncThunk(
   'patients/list',
   async (_, { dispatch }) => {
-    dispatch(navigate('PATIENT'))
     const response = await db.allDocs({
       include_docs: true,
       attachments: false
@@ -28,7 +21,6 @@ const list = createAsyncThunk(
 const add = createAsyncThunk(
   'patients/add',
   async (payload, { dispatch }) => {
-    dispatch(navigate('PATIENT_DETAILS'))
     const { id } = await db.post(payload)
     return { ...payload, id }
   }
@@ -37,7 +29,6 @@ const add = createAsyncThunk(
 const update = createAsyncThunk(
   'patients/update',
   async (payload, { dispatch }) => {
-    dispatch(navigate('PATIENT_DETAILS'))
     await db.put(payload)
     return payload
   }
@@ -46,7 +37,6 @@ const update = createAsyncThunk(
 const remove = createAsyncThunk(
   'patients/remove',
   async (payload, { dispatch }) => {
-    dispatch(navigate('PATIENT'))
     await db.put(payload)
     return payload
   }
@@ -55,24 +45,15 @@ const remove = createAsyncThunk(
 const details = createAsyncThunk(
   'patients/details',
   async (id, { dispatch }) => {
-    dispatch(navigate('PATIENT_DETAILS'))
     return db.get(id, {
       attachments: false
     })
   }
 )
 
-const newPatient = createAsyncThunk(
-  'patients/new',
-  async (_, { dispatch }) => {
-    dispatch(navigate('ADD_PATIENT'))
-  }
-)
-
 const editPatient = createAsyncThunk(
   'patients/edit',
   async (id, { dispatch }) => {
-    dispatch(navigate('ADD_PATIENT'))
     return db.get(id, {
       attachments: false
     })
@@ -82,10 +63,14 @@ const editPatient = createAsyncThunk(
 const removePatient = createAsyncThunk(
   'patients/remove',
   async (resource, { dispatch }) => {
-    dispatch(navigate('PATIENT'))
     return db.remove(resource)
   }
 )
+
+const adapter = createEntityAdapter({
+  sortComparer: (a, b) => a.surname.localeCompare(b.surname),
+  selectId: ({ _id }) => _id
+})
 
 const slice = createSlice({
   name: 'patients',
@@ -95,6 +80,7 @@ const slice = createSlice({
     error: null
   }),
   reducers: {
+    newPatient: state => { state.current = undefined },
     add: adapter.addOne,
     update: adapter.updateOne,
     remove: adapter.removeOne
@@ -115,30 +101,89 @@ const slice = createSlice({
       state.current = payload
       state.loading = false
     },
-    [newPatient.fulfilled]: state => {
+    [editPatient.pending]: state => {
       state.current = undefined
+      state.loading = true
     },
     [editPatient.fulfilled]: (state, { payload }) => {
       state.current = payload
+      state.loading = false
     },
-    [add.fulfilled]: (state, { payload }) => {
-      state.current = payload
+    [add.fulfilled]: {
+      prepare: payload => ({
+        payload,
+        meta: {
+          flash: {
+            type: 'success',
+            message: 'Dane nowego pacjenta zostały zapisane'
+          }
+        }
+      }),
+      reducer: (state, { payload }) => {
+        state.current = payload
+      }
     },
-    [update.fulfilled]: (state, { payload }) => {
-      state.current = payload
+    [add.rejected]: {
+      prepare: payload => ({
+        payload,
+        meta: {
+          flash: {
+            type: 'error',
+            message: 'Nie udało się zapisać nowego pacjenta'
+          }
+        }
+      })
     },
-    [removePatient.fulfilled]: (state, { payload }) => {
-      state.current = undefined
+    [update.fulfilled]: {
+      prepare: payload => ({
+        payload,
+        meta: {
+          flash: {
+            type: 'success',
+            message: 'Dane pacjenta zostały zaktualizowane'
+          }
+        }
+      }),
+      reducer: (state, { payload }) => {
+        state.current = payload
+      }
+    },
+    [update.rejected]: {
+      prepare: payload => ({
+        payload,
+        meta: {
+          flash: {
+            type: 'error',
+            message: 'Nie udało się zaktualizować danych pacjenta'
+          }
+        }
+      })
+    },
+    [removePatient.fulfilled]: {
+      prepare: payload => ({
+        payload,
+        meta: {
+          flash: {
+            type: 'success',
+            message: 'Dane pacjenta zostały zaktualizowane'
+          }
+        }
+      }),
+      reducer: state => {
+        state.current = undefined
+      }
     }
   }
 })
 
-// export thunk-generated actions
-export { update, add, remove, list, details, newPatient, editPatient }
+const { newPatient } = slice.actions
+// export named actions + thunk-generated actions
+export const actions = { update, add, remove, list, details, editPatient, newPatient }
 
-export default slice.reducer
 export const selectors = {
   current: state => state.patients.current,
   loading: state => state.patients.loading,
   ...adapter.getSelectors(state => state.patients)
 }
+
+export default slice.reducer
