@@ -1,7 +1,7 @@
 import React from 'react'
 import { Icon, Message } from 'semantic-ui-react'
 import './index.css'
-import { selectors, remove } from './slice'
+import { selectors, actions } from './slice'
 import { useSelector, useDispatch } from 'react-redux'
 
 const Flash = () => {
@@ -23,7 +23,7 @@ const Flash = () => {
       {flashes.map(({ id, type, text }) => (
         <Message
           onDismiss={
-            () => dispatch(remove({ id }))
+            () => dispatch(actions.remove(id))
           }
           icon
           key={id}

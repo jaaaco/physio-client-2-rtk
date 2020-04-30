@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { remove, add, update, list } from '../patients/slice'
+import { actions as patients } from '../patients/slice'
 
 const slice = createSlice({
   name: 'navigation',
@@ -10,10 +10,13 @@ const slice = createSlice({
     }
   },
   extraReducers: {
-    [remove.fulfilled]: () => 'PATIENT',
-    [update.fulfilled]: () => 'PATIENT_DETAILS',
-    [add.fulfilled]: () => 'PATIENT_DETAILS',
-    [list.fulfilled]: () => 'PATIENT'
+    [patients.newPatient]: () => 'ADD_PATIENT',
+    [patients.editPatient.fulfilled]: () => 'ADD_PATIENT',
+    [patients.remove.fulfilled]: () => 'PATIENT',
+    [patients.update.fulfilled]: () => 'PATIENT_DETAILS',
+    [patients.add.fulfilled]: () => 'PATIENT_DETAILS',
+    [patients.list.fulfilled]: () => 'PATIENT',
+    [patients.details.pending]: () => 'PATIENT_DETAILS'
   }
 })
 

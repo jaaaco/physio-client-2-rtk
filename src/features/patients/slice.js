@@ -9,7 +9,7 @@ const db = new PouchDb('patients')
 
 const list = createAsyncThunk(
   'patients/list',
-  async (_, { dispatch }) => {
+  async () => {
     const response = await db.allDocs({
       include_docs: true,
       attachments: false
@@ -20,23 +20,15 @@ const list = createAsyncThunk(
 
 const add = createAsyncThunk(
   'patients/add',
-  async (payload, { dispatch }) => {
+  async payload => {
     const { id } = await db.post(payload)
-    return { ...payload, id }
+    return { ...payload, _id: id }
   }
 )
 
 const update = createAsyncThunk(
   'patients/update',
-  async (payload, { dispatch }) => {
-    await db.put(payload)
-    return payload
-  }
-)
-
-const remove = createAsyncThunk(
-  'patients/remove',
-  async (payload, { dispatch }) => {
+  async payload => {
     await db.put(payload)
     return payload
   }
@@ -44,7 +36,7 @@ const remove = createAsyncThunk(
 
 const details = createAsyncThunk(
   'patients/details',
-  async (id, { dispatch }) => {
+  async id => {
     return db.get(id, {
       attachments: false
     })
@@ -53,17 +45,17 @@ const details = createAsyncThunk(
 
 const editPatient = createAsyncThunk(
   'patients/edit',
-  async (id, { dispatch }) => {
+  async id => {
     return db.get(id, {
       attachments: false
     })
   }
 )
 
-const removePatient = createAsyncThunk(
+const remove = createAsyncThunk(
   'patients/remove',
-  async (resource, { dispatch }) => {
-    return db.remove(resource)
+  async payload => {
+    return db.remove(payload)
   }
 )
 
@@ -109,69 +101,14 @@ const slice = createSlice({
       state.current = payload
       state.loading = false
     },
-    [add.fulfilled]: {
-      prepare: payload => ({
-        payload,
-        meta: {
-          flash: {
-            type: 'success',
-            message: 'Dane nowego pacjenta zostały zapisane'
-          }
-        }
-      }),
-      reducer: (state, { payload }) => {
-        state.current = payload
-      }
+    [add.fulfilled]: (state, { payload }) => {
+      state.current = payload
     },
-    [add.rejected]: {
-      prepare: payload => ({
-        payload,
-        meta: {
-          flash: {
-            type: 'error',
-            message: 'Nie udało się zapisać nowego pacjenta'
-          }
-        }
-      })
+    [update.fulfilled]: (state, { payload }) => {
+      state.current = payload
     },
-    [update.fulfilled]: {
-      prepare: payload => ({
-        payload,
-        meta: {
-          flash: {
-            type: 'success',
-            message: 'Dane pacjenta zostały zaktualizowane'
-          }
-        }
-      }),
-      reducer: (state, { payload }) => {
-        state.current = payload
-      }
-    },
-    [update.rejected]: {
-      prepare: payload => ({
-        payload,
-        meta: {
-          flash: {
-            type: 'error',
-            message: 'Nie udało się zaktualizować danych pacjenta'
-          }
-        }
-      })
-    },
-    [removePatient.fulfilled]: {
-      prepare: payload => ({
-        payload,
-        meta: {
-          flash: {
-            type: 'success',
-            message: 'Dane pacjenta zostały zaktualizowane'
-          }
-        }
-      }),
-      reducer: state => {
-        state.current = undefined
-      }
+    [remove.fulfilled]: (state, { payload }) => {
+      state.current = undefined
     }
   }
 })
