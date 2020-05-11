@@ -1,4 +1,4 @@
-import { actions } from '../features/flash/slice'
+import { actions } from '../features/flash/_redux'
 
 let nextId = 1
 const duration = 3000
@@ -30,9 +30,6 @@ const flash = ({ dispatch }) => next => async action => {
   }
 
   const add = (text, type = 'success') => {
-    if (!text) {
-      throw new Error()
-    }
     dispatch(actions.add({ id: nextId, type, text }))
     setTimeout(id => {
       dispatch(actions.remove(id))
@@ -43,12 +40,10 @@ const flash = ({ dispatch }) => next => async action => {
   // eslint-disable-next-line no-unused-vars
   const [_, module, verb, result] = matches
 
-  try {
+  if (messageMap[result]?.[module]?.[verb]) {
     add(messageMap[result][module][verb], messageMap[result].type)
-  } catch (e) {
-    try {
-      add(messageMap[result][verb], messageMap[result].type)
-    } catch (e) {}
+  } else if (messageMap[result]?.[verb]) {
+    add(messageMap[result][verb], messageMap[result].type)
   }
 
   return next(action)
