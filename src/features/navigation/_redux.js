@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { actions as patients } from '../patients/slice'
+import { actions as patients } from '../patients/_redux'
 
 const slice = createSlice({
   name: 'navigation',
@@ -20,12 +20,14 @@ const slice = createSlice({
   }
 })
 
-export const {
+const {
   navigate
 } = slice.actions
 
-const getNavigation = state => state.navigation
+export const actions = { navigate }
 
-export { getNavigation }
+export const selectors = {
+  getNavigation: state => state.navigation
+}
 
 export default slice.reducer

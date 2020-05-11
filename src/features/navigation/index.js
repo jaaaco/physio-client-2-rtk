@@ -2,34 +2,33 @@ import React from 'react'
 import { Input, Menu } from 'semantic-ui-react'
 import _ from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
-import { navigate, getNavigation } from './slice'
+import { actions, selectors } from './_redux'
 
 const getComparedScansCount = () => 0
 
 const Navigation = () => {
-  const activeNavigation = useSelector(getNavigation)
+  const activeNavigation = useSelector(selectors.getNavigation)
   const comparedScansCount = useSelector(getComparedScansCount)
   const dispatch = useDispatch()
   const items = [
     {
       name: 'Pacjenci',
-      actions: ['PATIENT', 'EDIT_PATIENT']
+      values: ['PATIENT', 'EDIT_PATIENT']
     },
-    { name: 'Wizyty', actions: ['APPOINTMENT'] },
-    { name: 'Ustawienia', actions: ['SETTINGS'] }
+    { name: 'Wizyty', values: ['APPOINTMENT'] },
+    { name: 'Ustawienia', values: ['SETTINGS'] }
   ]
 
   return (
     <Menu data-cy="navigation" size="massive" pointing>
-      {items.map(({ name, actions }) => (
+      {items.map(({ name, values }) => (
         <Menu.Item
-          data-cy={`top-navigation-${actions[0]}`}
+          data-cy={`top-navigation-${values[0]}`}
           key={name}
           name={name}
-          active={_.indexOf(actions, activeNavigation) !== -1}
+          active={_.indexOf(values, activeNavigation) !== -1}
           onClick={() => {
-            console.info({ navigate })
-            dispatch(navigate(actions[0]))
+            dispatch(actions.navigate(values[0]))
           }}
         />
       ))}
@@ -37,7 +36,7 @@ const Navigation = () => {
         <Menu.Item
           disabled={!comparedScansCount}
           name={`Porównaj (${comparedScansCount})`}
-          onClick={() => dispatch(navigate('COMPARE'))}
+          onClick={() => dispatch(actions.navigate('COMPARE'))}
         />
         <Menu.Item>
           <Input icon="search" placeholder="Szukaj..." />
@@ -47,4 +46,12 @@ const Navigation = () => {
   )
 }
 
-export default Navigation
+const NavigationSwitch = ({ map }) => {
+  const navigation = useSelector(selectors.getNavigation)
+  if (map[navigation]) {
+    return map[navigation]
+  }
+  return map._default || null
+}
+
+export { Navigation, NavigationSwitch }
