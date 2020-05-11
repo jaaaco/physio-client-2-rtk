@@ -1,2 +1,4 @@
 import AppointmentList from './list'
-export { AppointmentList }
+import AppointmentEdit from './edit'
+
+export { AppointmentList, AppointmentEdit }

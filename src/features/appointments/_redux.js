@@ -68,7 +68,7 @@ const remove = createAsyncThunk(
 )
 
 const adapter = createEntityAdapter({
-  sortComparer: (a, b) => a.surname.localeCompare(b.surname),
+  sortComparer: (a, b) => b.visitDate.localeCompare(a.visitDate),
   selectId: ({ _id }) => _id
 })
 
