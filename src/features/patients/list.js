@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Label, Table, Button, Header, Icon, Segment } from 'semantic-ui-react'
 import { useSelector, useDispatch } from 'react-redux'
-import { actions, selectors } from './slice'
+import { actions, selectors } from './_redux'
 
 const PatientList = () => {
   const dispatch = useDispatch()

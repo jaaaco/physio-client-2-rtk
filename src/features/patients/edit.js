@@ -9,11 +9,11 @@ import { ValidatorMessage, Validator } from '../validator'
 import {
   actions,
   selectors
-} from './slice'
+} from './_redux'
 
 import {
-  navigate
-} from '../navigation/slice'
+  actions as navigationActions
+} from '../navigation/_redux'
 
 const PatientEdit = () => {
   const dispatch = useDispatch()
@@ -80,9 +80,6 @@ const PatientEdit = () => {
       patient === undefined
         ? actions.add(fields.values)
         : actions.update({ _id, _rev, ...fields.values })
-    )
-    dispatch(
-      navigate()
     )
   }
 
@@ -168,7 +165,7 @@ const PatientEdit = () => {
               <Button.Or text="lub" />
               <Button
                 data-cy="patient-cancel-button"
-                onClick={() => dispatch(navigate('PATIENT'))}
+                onClick={() => dispatch(navigationActions.navigate('PATIENT'))}
               >
                 Anuluj
               </Button>
@@ -181,7 +178,6 @@ const PatientEdit = () => {
                 negative
                 onClick={() => {
                   dispatch(actions.remove(patient))
-                  dispatch(navigate('PATIENT'))
                 }}
               >
                 <Icon name="trash" /> Usuń

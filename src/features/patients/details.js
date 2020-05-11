@@ -9,9 +9,9 @@ import {
   Icon,
   Segment
 } from 'semantic-ui-react'
-import { actions, selectors } from './slice'
-import { navigate } from '../navigation/slice'
-// import AppointmentList from '../Appointment/AppointmentList'
+import { actions, selectors } from './_redux'
+import { actions as navigationActions } from '../navigation/_redux'
+import { AppointmentList } from '../appointments'
 
 const PatientDetails = () => {
   const patient = useSelector(selectors.current)
@@ -38,7 +38,7 @@ const PatientDetails = () => {
             <Button.Group
               primary
               floated="right"
-              onClick={() => dispatch(navigate('ADD_APPOINTMENT'))}
+              onClick={() => dispatch(navigationActions.navigate('ADD_APPOINTMENT'))}
             >
               <Button primary>
                 <Icon name="add to calendar" />
@@ -84,7 +84,7 @@ const PatientDetails = () => {
             <Header as="h3" style={{ margin: '2em 0 1em 0' }}>
               Ostatnie wizyty
             </Header>
-            {/* <AppointmentList /> */}
+             <AppointmentList />
           </Grid.Column>
           <Grid.Column width={9} style={{ padding: '0 0 3em 2em' }}>
             <Header as="h4">Ostatnie badanie - 02.02.2017, 09:00</Header>
