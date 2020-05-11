@@ -16,6 +16,7 @@ const slice = createSlice({
     [patients.editPatient.fulfilled]: () => 'ADD_PATIENT',
     [appointments.editAppointment.fulfilled]: () => 'ADD_APPOINTMENT',
     [patients.remove.fulfilled]: () => 'PATIENT',
+    [appointments.remove.fulfilled]: () => 'PATIENT_DETAILS',
     [patients.update.fulfilled]: () => 'PATIENT_DETAILS',
     [appointments.update.fulfilled]: () => 'APPOINTMENT_DETAILS',
     [patients.add.fulfilled]: () => 'PATIENT_DETAILS',
