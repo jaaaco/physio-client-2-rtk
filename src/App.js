@@ -3,7 +3,7 @@ import React from 'react'
 import Flash from './features/flash'
 import { Navigation, NavigationSwitch } from './features/navigation'
 import { PatientDetails, PatientEdit, PatientList } from './features/patients'
-import { AppointmentList, AppointmentEdit } from './features/appointments'
+import { AppointmentDetails, AppointmentEdit, AppointmentList } from './features/appointments'
 
 const App = () => (
   <>
@@ -13,6 +13,7 @@ const App = () => (
         ADD_PATIENT: <PatientEdit />,
         ADD_APPOINTMENT: <AppointmentEdit />,
         PATIENT_DETAILS: <PatientDetails />,
+        APPOINTMENT_DETAILS: <AppointmentDetails />,
         PATIENT: <PatientList />,
         APPOINTMENT: <AppointmentList />,
         _default: <p>_default</p>

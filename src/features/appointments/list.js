@@ -2,13 +2,9 @@ import React, { useEffect } from 'react'
 import { Header, Icon, Segment, Table } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import {
-  selectors, actions
-} from './_redux'
+import { actions, selectors } from './_redux'
 
-import {
-  selectors as patientSelectors
-} from '../patients/_redux'
+import { selectors as patientSelectors } from '../patients/_redux'
 
 const AppointmentList = () => {
   const dispatch = useDispatch()
@@ -52,10 +48,10 @@ const AppointmentList = () => {
 
         <Table.Body>
           {appointments.map(
-            ({ _id, interview, visitDate, patientId, patient }) => (
+            ({ _id, interview, visitDate, patient }) => (
               <Table.Row
                 onClick={() => {
-                  dispatch(actions.details(patientId, _id))
+                  dispatch(actions.details(_id))
                 }}
                 key={_id}
               >

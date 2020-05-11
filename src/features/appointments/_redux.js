@@ -1,8 +1,4 @@
-import {
-  createEntityAdapter,
-  createSlice,
-  createAsyncThunk
-} from '@reduxjs/toolkit'
+import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 import PouchDb from 'pouchdb'
 import PouchDbFind from 'pouchdb-find'
 
@@ -51,7 +47,7 @@ const details = createAsyncThunk(
   }
 )
 
-const editPatient = createAsyncThunk(
+const editAppointment = createAsyncThunk(
   'appointments/edit',
   async id => {
     return db.get(id, {
@@ -101,11 +97,11 @@ const slice = createSlice({
       state.current = payload
       state.loading = false
     },
-    [editPatient.pending]: state => {
+    [editAppointment.pending]: state => {
       state.current = undefined
       state.loading = true
     },
-    [editPatient.fulfilled]: (state, { payload }) => {
+    [editAppointment.fulfilled]: (state, { payload }) => {
       state.current = payload
       state.loading = false
     },
@@ -123,7 +119,7 @@ const slice = createSlice({
 
 const { newAppointment } = slice.actions
 // export named actions + thunk-generated actions
-export const actions = { update, add, remove, list, details, editPatient, newAppointment }
+export const actions = { update, add, remove, list, details, editAppointment, newAppointment }
 
 export const selectors = {
   current: state => state.appointments.current,
