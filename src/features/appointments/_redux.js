@@ -10,19 +10,21 @@ const db = new PouchDb('appointments')
 const list = createAsyncThunk(
   'appointments/list',
   async ({ patientId }) => {
-    try {
-      const response = await db.find({
-        selector: {
-          patientId
-        }
-      })
-      // await response.docs.map(async doc => {
-      //         return (({ ...doc, patient: await patientLoader.load(doc.patientId) }))
-      //       })
-      return !patientId ? response.docs : response.docs
-    } catch (e) {
-      console.error(e)
+    const response = await db.find({
+      selector: {
+        patientId
+      }
+    })
+
+    if (patientId) {
+      return response.docs
     }
+
+    const result = []
+    for (const doc of response.docs) {
+      result.push({ ...doc, patient: await patientLoader.load(doc.patientId) })
+    }
+    return result
   }
 )
 

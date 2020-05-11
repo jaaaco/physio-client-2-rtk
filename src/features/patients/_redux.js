@@ -38,6 +38,7 @@ const update = createAsyncThunk(
   'patients/update',
   async payload => {
     await db.put(payload)
+    patientLoader.clear(payload._id)
     return payload
   }
 )
@@ -63,6 +64,7 @@ const editPatient = createAsyncThunk(
 const remove = createAsyncThunk(
   'patients/remove',
   async payload => {
+    patientLoader.clear(payload._id)
     return db.remove(payload)
   }
 )
