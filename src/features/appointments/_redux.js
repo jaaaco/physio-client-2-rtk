@@ -4,18 +4,25 @@ import {
   createAsyncThunk
 } from '@reduxjs/toolkit'
 import PouchDb from 'pouchdb'
+import PouchDbFind from 'pouchdb-find'
+
+PouchDb.plugin(PouchDbFind)
 
 const db = new PouchDb('appointments')
 
 const list = createAsyncThunk(
   'appointments/list',
   async ({ patientId }) => {
-    const response = await db.find({
-      selector: {
-        patientId
-      }
-    })
-    return response.rows.map(({ doc }) => doc)
+    try {
+      const response = await db.find({
+        selector: {
+          patientId
+        }
+      })
+      return response.docs
+    } catch (e) {
+      console.error(e)
+    }
   }
 )
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Icon, Message } from 'semantic-ui-react'
 import './index.css'
-import { selectors, actions } from './slice'
+import { selectors, actions } from './_redux'
 import { useSelector, useDispatch } from 'react-redux'
 
 const Flash = () => {
