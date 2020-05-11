@@ -4,8 +4,16 @@ import {
   createAsyncThunk
 } from '@reduxjs/toolkit'
 import PouchDb from 'pouchdb'
+import DataLoader from 'dataloader'
 
 const db = new PouchDb('patients')
+
+async function loadPatients (keys) {
+  const result = await db.allDocs({ include_docs: true, attachments: false, keys })
+  return keys.map(id => result.rows.map(row => row.doc).find(({ _id }) => id === _id))
+}
+
+export const patientLoader = new DataLoader(loadPatients)
 
 const list = createAsyncThunk(
   'patients/list',
@@ -72,6 +80,7 @@ const slice = createSlice({
     error: null
   }),
   reducers: {
+    reset: state => { state.current = undefined },
     newPatient: state => { state.current = undefined },
     add: adapter.addOne,
     update: adapter.updateOne,
@@ -84,6 +93,7 @@ const slice = createSlice({
     [list.fulfilled]: (state, { payload }) => {
       adapter.setAll(state, payload)
       state.loading = false
+      state.current = undefined
     },
     [details.pending]: state => {
       state.current = undefined
@@ -113,9 +123,9 @@ const slice = createSlice({
   }
 })
 
-const { newPatient } = slice.actions
+const { newPatient, reset } = slice.actions
 // export named actions + thunk-generated actions
-export const actions = { update, add, remove, list, details, editPatient, newPatient }
+export const actions = { reset, update, add, remove, list, details, editPatient, newPatient }
 
 export const selectors = {
   current: state => state.patients.current,

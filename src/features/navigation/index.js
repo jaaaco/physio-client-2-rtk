@@ -3,6 +3,7 @@ import { Input, Menu } from 'semantic-ui-react'
 import _ from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
 import { actions, selectors } from './_redux'
+import { actions as patientActions } from '../patients/_redux'
 
 const getComparedScansCount = () => 0
 
@@ -28,6 +29,7 @@ const Navigation = () => {
           name={name}
           active={_.indexOf(values, activeNavigation) !== -1}
           onClick={() => {
+            dispatch(patientActions.reset())
             dispatch(actions.navigate(values[0]))
           }}
         />

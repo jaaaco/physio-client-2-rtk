@@ -1,6 +1,7 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 import PouchDb from 'pouchdb'
 import PouchDbFind from 'pouchdb-find'
+import { patientLoader } from '../patients/_redux'
 
 PouchDb.plugin(PouchDbFind)
 
@@ -15,7 +16,10 @@ const list = createAsyncThunk(
           patientId
         }
       })
-      return response.docs
+      // await response.docs.map(async doc => {
+      //         return (({ ...doc, patient: await patientLoader.load(doc.patientId) }))
+      //       })
+      return !patientId ? response.docs : response.docs
     } catch (e) {
       console.error(e)
     }
@@ -64,7 +68,10 @@ const remove = createAsyncThunk(
 )
 
 const adapter = createEntityAdapter({
-  sortComparer: (a, b) => b.visitDate.localeCompare(a.visitDate),
+  sortComparer: (a, b) => {
+    console.info({ a, b })
+    return b.visitDate.localeCompare(a.visitDate)
+  },
   selectId: ({ _id }) => _id
 })
 

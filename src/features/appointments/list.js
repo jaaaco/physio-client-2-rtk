@@ -12,7 +12,7 @@ const AppointmentList = () => {
   const appointments = useSelector(selectors.selectAll)
 
   useEffect(() => {
-    dispatch(actions.list({ patientId: selectedPatient._id }))
+    dispatch(actions.list({ patientId: selectedPatient?._id }))
   }, [dispatch, selectedPatient])
 
   if (!appointments.length) {
