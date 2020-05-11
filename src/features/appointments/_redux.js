@@ -1,7 +1,7 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 import PouchDb from 'pouchdb'
 import PouchDbFind from 'pouchdb-find'
-import { patientLoader } from '../patients/_redux'
+import { patientLoader, actions as patientActions } from '../patients/_redux'
 
 PouchDb.plugin(PouchDbFind)
 
@@ -46,10 +46,12 @@ const update = createAsyncThunk(
 
 const details = createAsyncThunk(
   'appointments/details',
-  async id => {
-    return db.get(id, {
+  async (id, { dispatch }) => {
+    const appointment = await db.get(id, {
       attachments: false
     })
+    dispatch(patientActions.set(appointment.patientId))
+    return appointment
   }
 )
 

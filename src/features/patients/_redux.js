@@ -15,6 +15,11 @@ async function loadPatients (keys) {
 
 export const patientLoader = new DataLoader(loadPatients)
 
+const destroy = createAsyncThunk(
+  'patients/destroy',
+  async () => db.destroy()
+)
+
 const list = createAsyncThunk(
   'patients/list',
   async () => {
@@ -45,6 +50,15 @@ const update = createAsyncThunk(
 
 const details = createAsyncThunk(
   'patients/details',
+  async id => {
+    return db.get(id, {
+      attachments: false
+    })
+  }
+)
+
+const set = createAsyncThunk(
+  'patients/set',
   async id => {
     return db.get(id, {
       attachments: false
@@ -116,6 +130,7 @@ const slice = createSlice({
     [add.fulfilled]: (state, { payload }) => {
       state.current = payload
     },
+    [set.fulfilled]: (state, { payload }) => { state.current = payload },
     [update.fulfilled]: (state, { payload }) => {
       state.current = payload
     },
@@ -127,7 +142,7 @@ const slice = createSlice({
 
 const { newPatient, reset } = slice.actions
 // export named actions + thunk-generated actions
-export const actions = { reset, update, add, remove, list, details, editPatient, newPatient }
+export const actions = { reset, set, update, add, remove, list, details, editPatient, newPatient, destroy }
 
 export const selectors = {
   current: state => state.patients.current,

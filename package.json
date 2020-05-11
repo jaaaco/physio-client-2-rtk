@@ -44,6 +44,9 @@
     ]
   },
   "devDependencies": {
+    "casual": "^1.6.2",
+    "cypress": "^4.5.0",
+    "faker": "^4.1.0",
     "standard": "^14.3.3"
   },
   "babel": {
