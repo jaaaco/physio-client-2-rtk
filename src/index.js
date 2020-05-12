@@ -5,6 +5,8 @@ import App from './App'
 import store from './store'
 import { Provider } from 'react-redux'
 import * as serviceWorker from './serviceWorker'
+import PouchDb from 'pouchdb'
+
 ReactDOM.render(
   <Provider store={store}>
     <App />
@@ -19,5 +21,11 @@ serviceWorker.unregister()
 
 // expose store when run in Cypress
 if (window.Cypress) {
-  window.store = store
+  window.resetApp = async function () {
+    const patients = new PouchDb('patients')
+    await patients.destroy()
+
+    const appointments = new PouchDb('appointments')
+    await appointments.destroy()
+  }
 }
