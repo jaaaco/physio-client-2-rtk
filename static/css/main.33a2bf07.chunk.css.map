@@ -1,0 +1,1 @@
+{"version":3,"sources":["index.css"],"names":[],"mappings":"AAAA,OACE,cAAe,CACf,QAAS,CACT,SAAU,CACV,SACF","file":"main.33a2bf07.chunk.css","sourcesContent":[".Flash {\n  position: fixed;\n  left: 20%;\n  width: 60%;\n  bottom: 5%;\n}\n"]}
