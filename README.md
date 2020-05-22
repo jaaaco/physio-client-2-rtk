@@ -1,4 +1,4 @@
-https://github.com/jaaaco/physio-client-2-rtk/workflows/Deployment/badge.svg
+![Build Status](https://github.com/jaaaco/physio-client-2-rtk/workflows/Deployment/badge.svg)
 
 # Notes
 
