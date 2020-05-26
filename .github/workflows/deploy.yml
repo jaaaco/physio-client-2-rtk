@@ -32,6 +32,9 @@ jobs:
         run: yarn start &
       - name: E2E Test (cypress.io)
         uses: cypress-io/github-action@v1
+        with:
+          browser: chrome
+          headless: true
       - name: Build
         run: yarn build
         env:
