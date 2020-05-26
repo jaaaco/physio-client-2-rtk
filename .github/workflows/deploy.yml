@@ -28,7 +28,9 @@ jobs:
 #            ${{ runner.os }}-
       - name: Install Packages
         run: yarn install
-      - name: Cypress run
+      - name: Start server in the background
+        run: yarn start &
+      - name: Test E2D (cypress.io)
         uses: cypress-io/github-action@v1
       - name: Build
         run: yarn build
