@@ -2,7 +2,6 @@
 /// <reference types="cypress" />
 
 import faker from 'faker'
-import moment from 'moment'
 
 context('appointment', () => {
   beforeEach(() => {

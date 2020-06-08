@@ -27,5 +27,8 @@ if (window.Cypress) {
 
     const appointments = new PouchDb('appointments')
     await appointments.destroy()
+
+    const settings = new PouchDb('settings')
+    await settings.destroy()
   }
 }

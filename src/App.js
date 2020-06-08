@@ -4,6 +4,7 @@ import Flash from './features/flash'
 import { Navigation, NavigationSwitch } from './features/navigation'
 import { PatientDetails, PatientEdit, PatientList } from './features/patients'
 import { AppointmentDetails, AppointmentEdit, AppointmentList } from './features/appointments'
+import Settings from './features/settings'
 
 const App = () => (
   <>
@@ -16,6 +17,7 @@ const App = () => (
         APPOINTMENT_DETAILS: <AppointmentDetails />,
         PATIENT: <PatientList />,
         APPOINTMENT: <AppointmentList />,
+        SETTINGS: <Settings />,
         _default: <p>_default</p>
       }} />
     </div>
