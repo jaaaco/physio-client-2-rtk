@@ -37,7 +37,7 @@ const AppointmentList = () => {
           </Header.Content>
         </Header>
       )}
-      <Table padded selectable fixed>
+      <Table data-cy="appointment-list" padded selectable fixed>
         <Table.Header>
           <Table.Row>
             {!selectedPatient && <Table.HeaderCell>Pacjent</Table.HeaderCell>}

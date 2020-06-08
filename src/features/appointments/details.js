@@ -55,6 +55,7 @@ const AppointmentDetails = () => {
           Nowe badanie
         </Button>
         <Dropdown
+          data-cy="dropdown"
           onChange={() => {
             dispatch(actions.editAppointment(appointment._id))
           }}
@@ -67,20 +68,20 @@ const AppointmentDetails = () => {
       </Button.Group>
       <Header as="h2">
         <Icon name="user circle" />
-        <Header.Content>
+        <Header.Content data-cy="appointment-details">
           Wizyta {appointment.visitDate}
           <Header.Subheader>
             {patient.name} {patient.surname}
           </Header.Subheader>
         </Header.Content>
       </Header>
-      <Segment>
+      <Segment data-cy="appointment-description">
         {appointment.interview.split('\n').map((line, key) => (
           <p key={key}>{line}</p>
         ))}
       </Segment>
       {/* <ScanList /> */}
-      <Button onClick={() => dispatch(patientActions.details(patient._id))} basic>
+      <Button data-cy="navigate-back" onClick={() => dispatch(patientActions.details(patient._id))} basic>
         <Icon name="arrow left" /> wróć do szczegółów pacjenta
       </Button>
     </>

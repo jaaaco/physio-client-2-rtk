@@ -40,7 +40,7 @@ const PatientDetails = () => {
               floated="right"
               onClick={() => dispatch(appointmentActions.newAppointment())}
             >
-              <Button primary>
+              <Button primary data-cy="new-appointment">
                 <Icon name="add to calendar" />
                 Nowa wizyta
               </Button>

@@ -7,9 +7,7 @@ import moment from 'moment'
 import { selectors, actions } from './_redux'
 import { actions as patientActions, selectors as patientSelectors } from '../patients/_redux'
 
-const AppointmentEdit = ({
-  patientId
-}) => {
+const AppointmentEdit = () => {
   const dispatch = useDispatch()
   const appointment = useSelector(selectors.current)
   const patient = useSelector(patientSelectors.current)
@@ -60,6 +58,7 @@ const AppointmentEdit = ({
           <label>Data wizyty</label>
           <DateTimeInput
             duration={0}
+            name="visitDate"
             closable
             closeOnMouseLeave
             dateFormat={dateFormat}
@@ -92,11 +91,11 @@ const AppointmentEdit = ({
           <Grid.Row columns="2">
             <Grid.Column>
               <Button.Group>
-                <Button onClick={handleSubmit} positive>
+                <Button data-cy="appointment-save-button" onClick={handleSubmit} positive>
                   Zapisz
                 </Button>
                 <Button.Or text="lub" />
-                <Button onClick={() => dispatch(patientActions.details(patientId))}>
+                <Button data-cy="appointment-cancel" onClick={() => dispatch(patientActions.details(patient._id))}>
                   Anuluj
                 </Button>
               </Button.Group>
