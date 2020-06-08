@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/physio-client-2-rtk/precache-manifest.f08a1ee8abb4b4fb315ab554e2f138c9.js"
+  "/physio-client-2-rtk/precache-manifest.f65d7b364eead1dc6a195cb514ea1453.js"
 );
 
 self.addEventListener('message', (event) => {
