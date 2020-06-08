@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6f38634f9b1e5d182a54c023b96a7e9f",
+    "revision": "90464412470f84f3a0dbc1758fd13efc",
     "url": "/physio-client-2-rtk/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/physio-client-2-rtk/static/css/2.3ec4deee.chunk.css"
   },
   {
-    "revision": "d3a8aa462fbd5517c7fd",
+    "revision": "d601c1898dbcafa868d9",
     "url": "/physio-client-2-rtk/static/css/main.33a2bf07.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/physio-client-2-rtk/static/js/2.7ba3eca5.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "d3a8aa462fbd5517c7fd",
-    "url": "/physio-client-2-rtk/static/js/main.2464a034.chunk.js"
+    "revision": "d601c1898dbcafa868d9",
+    "url": "/physio-client-2-rtk/static/js/main.cb73f2fb.chunk.js"
   },
   {
     "revision": "5232746c3d306d32f0fe",
