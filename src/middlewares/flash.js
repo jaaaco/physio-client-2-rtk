@@ -50,3 +50,11 @@ const flash = ({ dispatch }) => next => async action => {
 }
 
 export default flash
+
+export const add = (dispatch, text, type = 'success') => {
+  dispatch(actions.add({ id: nextId, type, text }))
+  setTimeout(id => {
+    dispatch(actions.remove(id))
+  }, duration, nextId)
+  nextId++
+}

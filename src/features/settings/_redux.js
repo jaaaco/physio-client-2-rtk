@@ -9,7 +9,8 @@ const db = new PouchDb('settings')
 
 const initialState = {
   all: {
-    serverHost: 'localhost:5000'
+    serverHost: 'localhost',
+    serverPort: 'localhost:8080'
   },
   loading: false
 }
@@ -17,7 +18,7 @@ const initialState = {
 const list = createAsyncThunk(
   'settings/list',
   async () => {
-    let response = clone(initialState.all)
+    const response = clone(initialState.all)
     for (const name of Object.keys(initialState.all)) {
       const { docs } = await db.find({ selector: { name } })
       if (docs.length === 1) {

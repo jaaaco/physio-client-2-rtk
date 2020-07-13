@@ -1,8 +1,5 @@
 /// <reference types="cypress" />
 
-import faker from 'faker'
-import moment from 'moment'
-
 context('setting', () => {
   beforeEach(() => {
     cy.visit('/')
