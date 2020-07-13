@@ -34,7 +34,6 @@ jobs:
       - name: E2E Test (cypress.io)
         uses: cypress-io/github-action@v1
         with:
-          build: yarn setup
           start: yarn start
           wait-on: 'http://localhost:3000'
           browser: chrome
