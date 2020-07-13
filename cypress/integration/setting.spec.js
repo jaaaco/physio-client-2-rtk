@@ -13,12 +13,14 @@ context('setting', () => {
   })
   it('updates setting', () => {
     cy.get('[data-cy=top-navigation-SETTINGS').click()
-    cy.get('[data-cy=setting-value] input').clear().type('http://localhost:5555')
+    cy.get('[data-cy=setting-value] input:eq(0)').clear().type('someotherhost')
+    cy.get('[data-cy=setting-value] input:eq(1)').clear().type('8081')
     cy.get('[data-cy=setting-save').click()
 
     cy.reload()
     cy.wait(100)
     cy.get('[data-cy=top-navigation-SETTINGS').click()
-    cy.get('[data-cy=setting-value] input').should('have.value', 'http://localhost:5555')
+    cy.get('[data-cy=setting-value] input:eq(0)').should('have.value', 'someotherhost')
+    cy.get('[data-cy=setting-value] input:eq(1)').should('have.value', '8081')
   })
 })

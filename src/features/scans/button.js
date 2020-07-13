@@ -4,6 +4,7 @@ import { ScannerController } from '@dev3dbody/scanner-controller'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectors } from '../settings/_redux'
 import { add as flash } from '../../middlewares/flash'
+import isArray from 'lodash/isArray'
 
 const ScanButton = ({ patient }) => {
   const { serverHost, serverPort } = useSelector(selectors.all)
@@ -15,7 +16,7 @@ const ScanButton = ({ patient }) => {
       setBusy(false)
     }
   }, errors => {
-    errors.forEach(error => {
+    isArray(errors) && errors.forEach(error => {
       flash(dispatch, 'Błąd połączenia ze skanerem: ' + error.msg, 'error')
     })
   })
@@ -35,7 +36,7 @@ const ScanButton = ({ patient }) => {
           // mesh is an ArrayBuffer, ready to pass to MeshViewer component
         }, errors => {
           setBusy(false)
-          errors.forEach(error => {
+          isArray(errors) && errors.forEach(error => {
             flash(dispatch, 'Błąd skanowania: ' + error.msg, 'error')
           })
         })

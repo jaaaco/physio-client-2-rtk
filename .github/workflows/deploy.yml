@@ -37,6 +37,7 @@ jobs:
           start: yarn start
           wait-on: 'http://10.1.0.4/'
           browser: chrome
+          config-file: cypress-ci.json
       - name: Build
         run: npm run build
         env:
