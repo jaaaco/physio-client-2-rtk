@@ -29,15 +29,15 @@ jobs:
       - name: Install Packages
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
-        run: yarn install
+        run: npm install
       - name: Start server in the background
-        run: yarn start &
+        run: npm start &
       - name: E2E Test (cypress.io)
         uses: cypress-io/github-action@v1
         with:
           browser: chrome
       - name: Build
-        run: yarn build
+        run: npm run build
         env:
           CI: false
       - name: Deploy to gh-pages
