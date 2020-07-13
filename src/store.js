@@ -4,6 +4,7 @@ import patients from './features/patients/_redux'
 import appointments from './features/appointments/_redux'
 import settings from './features/settings/_redux'
 import flash from './features/flash/_redux'
+import scans from './features/scans/_redux'
 import flashMiddleware from './middlewares/flash'
 
 export default configureStore({
@@ -12,7 +13,8 @@ export default configureStore({
     patients,
     appointments,
     settings,
-    flash
+    flash,
+    scans
   },
   middleware: [...getDefaultMiddleware(), flashMiddleware]
 })
