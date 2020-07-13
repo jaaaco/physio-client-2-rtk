@@ -35,7 +35,7 @@ jobs:
         uses: cypress-io/github-action@v1
         with:
           start: yarn start
-          wait-on: 'http://localhost:3000'
+          wait-on: 'http://10.1.0.4/'
           browser: chrome
       - name: Build
         run: npm run build
