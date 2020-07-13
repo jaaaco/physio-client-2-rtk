@@ -15,7 +15,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-          registry-url: 'https://npm.pkg.github.com/dev3dbody'
       - name: Cache node modules
         uses: actions/cache@v1
         env:
