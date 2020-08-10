@@ -1,10 +1,14 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 import PouchDb from 'pouchdb'
 import PouchDbFind from 'pouchdb-find'
+import moment from 'moment'
+import omit from 'lodash/omit'
 
 PouchDb.plugin(PouchDbFind)
 
 const db = new PouchDb('scans')
+
+window.db = db
 
 const list = createAsyncThunk(
   'scans/list',
@@ -24,8 +28,24 @@ const list = createAsyncThunk(
 const add = createAsyncThunk(
   'scans/add',
   async payload => {
-    const { id } = await db.post(payload)
-    return { ...payload, _id: id }
+    console.info({ payload })
+    const newScan = {
+      date: moment().format('YYYY-MM-DD @ HH:mm'),
+      ...omit(payload, ['mesh'])
+    }
+    const { id, rev } = await db.post(newScan)
+    await db.putAttachment(
+      id,
+      'scan.ply',
+      rev,
+      new Blob([payload.mesh], { type: 'application/octet-stream' }),
+      'application/octet-stream'
+    )
+
+    return {
+      ...newScan,
+      _id: id
+    }
   }
 )
 
@@ -41,7 +61,7 @@ const details = createAsyncThunk(
   'scans/details',
   async (id, { dispatch }) => {
     const scan = await db.get(id, {
-      attachments: false
+      attachments: true
     })
     return scan
   }

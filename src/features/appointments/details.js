@@ -5,9 +5,7 @@ import { actions, selectors as appointmentSelectors } from './_redux'
 
 import { actions as patientActions, selectors as patientSelectors } from '../patients/_redux'
 import ScanButton from '../scans/button'
-
-// import Scanner from '../../lib/scanner'
-// import ScanList from '../Scan/ScanList'
+import ScanList from '../scans/list'
 
 const AppointmentDetails = () => {
   const patient = useSelector(patientSelectors.current)
@@ -21,7 +19,7 @@ const AppointmentDetails = () => {
   return (
     <>
       <Button.Group floated="right">
-        <ScanButton patient={patient} />
+        <ScanButton appointment={appointment} patient={patient} />
         <Dropdown
           data-cy="dropdown"
           onChange={() => {
@@ -48,7 +46,7 @@ const AppointmentDetails = () => {
           <p key={key}>{line}</p>
         ))}
       </Segment>
-      {/* <ScanList /> */}
+      <ScanList />
       <Button data-cy="navigate-back" onClick={() => dispatch(patientActions.details(patient._id))} basic>
         <Icon name="arrow left" /> wróć do szczegółów pacjenta
       </Button>

@@ -3,58 +3,63 @@ import { Button, Icon } from 'semantic-ui-react'
 import { ScannerController } from '@dev3dbody/scanner-controller'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectors } from '../settings/_redux'
+import { actions } from './_redux'
 import { add as flash } from '../../middlewares/flash'
 import isArray from 'lodash/isArray'
 
-const ScanButton = ({ patient }) => {
+const ScanButton = ({ appointment, patient }) => {
+  const buttonLabels = {
+    checking: 'Łączenie ze skanerem...',
+    ready: 'Nowe badanie',
+    error: 'Błąd skanowania',
+    'connection-error': 'Brak połączenia',
+    busy: 'Skanuję...'
+  }
+  const [status, setStatus] = useState('checking')
   const { serverHost, serverPort } = useSelector(selectors.all)
-  const [busy, setBusy] = useState(true)
   const dispatch = useDispatch()
   const scannerController = new ScannerController(serverHost, serverPort, false)
+
   scannerController.getStatus().then(result => {
     if (result.arduino_ready) {
-      setBusy(false)
+      setStatus('ready')
     }
   }, errors => {
     isArray(errors) && errors.forEach(error => {
       flash(dispatch, 'Błąd połączenia ze skanerem: ' + error.msg, 'error')
+      setStatus('connection-error')
     })
   })
 
   return (
     <Button
-      disabled={busy}
-      primary
+      disabled={status === 'checking' || status === 'busy'}
+      primary={status === 'ready' || status === 'busy'}
+      negative={status === 'connection-error'}
       onClick={() => {
-        setBusy(true)
-
+        setStatus('busy')
         const scanId = ScannerController.prepareStandardScanId(patient.surname + patient.name)
         scannerController.scan(scanId).then(mesh => {
-          setBusy(false)
-          console.info(mesh)
+          setStatus('busy')
+          dispatch(
+            actions.add({
+              patientId: patient._id,
+              appointmentId: appointment._id,
+              mesh,
+            })
+          )
           flash(dispatch, 'Skan OK')
-          // mesh is an ArrayBuffer, ready to pass to MeshViewer component
+
         }, errors => {
-          setBusy(false)
+          setStatus('error')
           isArray(errors) && errors.forEach(error => {
-            flash(dispatch, 'Błąd skanowania: ' + error.msg, 'error')
+            flash(dispatch, 'Błąd skanowania: ' + error.msg, 'warning')
           })
         })
-        // dispatch(
-        //   createRequest('scans', {
-        //     comment: '',
-        //     order: scans.length + 1,
-        //     appointmentId: appointment._id,
-        //     patientId: patient._id,
-        //     mesh: data,
-        //     date: moment().format('YYYY-MM-DD @ HH:mm')
-        //   })
-        // )
-        // })
       }}
     >
-      <Icon name="video camera"/>
-      Nowe badanie
+      <Icon name="video camera" />
+      {buttonLabels[status]}
     </Button>
   )
 }
