@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { actions as patients } from '../patients/_redux'
 import { actions as appointments } from '../appointments/_redux'
+import { actions as scans } from '../scans/_redux'
 
 const slice = createSlice({
   name: 'navigation',
@@ -23,7 +24,8 @@ const slice = createSlice({
     [appointments.add.fulfilled]: () => 'APPOINTMENT_DETAILS',
     [appointments.details.pending]: () => 'APPOINTMENT_DETAILS',
     [patients.list.fulfilled]: () => 'PATIENT',
-    [patients.details.pending]: () => 'PATIENT_DETAILS'
+    [patients.details.pending]: () => 'PATIENT_DETAILS',
+    [scans.details.pending]: () => 'SCAN_DETAILS'
   }
 })
 

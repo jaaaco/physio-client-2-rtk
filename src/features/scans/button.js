@@ -7,7 +7,7 @@ import { actions } from './_redux'
 import { add as flash } from '../../middlewares/flash'
 import isArray from 'lodash/isArray'
 
-const ScanButton = ({ appointment, patient }) => {
+const ScanButton = ({ appointment, patient, onScanComplete }) => {
   const buttonLabels = {
     checking: 'Łączenie ze skanerem...',
     ready: 'Nowe badanie',
@@ -39,17 +39,16 @@ const ScanButton = ({ appointment, patient }) => {
       onClick={() => {
         setStatus('busy')
         const scanId = ScannerController.prepareStandardScanId(patient.surname + patient.name)
-        scannerController.scan(scanId).then(mesh => {
+        scannerController.scan(scanId).then(async mesh => {
           setStatus('busy')
-          dispatch(
+          const { payload: { _id } } = await dispatch(
             actions.add({
               patientId: patient._id,
               appointmentId: appointment._id,
-              mesh,
+              mesh
             })
           )
-          flash(dispatch, 'Skan OK')
-
+          onScanComplete(_id)
         }, errors => {
           setStatus('error')
           isArray(errors) && errors.forEach(error => {

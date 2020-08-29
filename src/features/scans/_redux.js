@@ -3,33 +3,37 @@ import PouchDb from 'pouchdb'
 import PouchDbFind from 'pouchdb-find'
 import moment from 'moment'
 import omit from 'lodash/omit'
+import reverse from 'lodash/reverse'
 
 PouchDb.plugin(PouchDbFind)
 
 const db = new PouchDb('scans')
 
-window.db = db
+db.createIndex({ index: { fields: ['order'] }})
 
 const list = createAsyncThunk(
   'scans/list',
   async ({ appointmentId, patientId }) => {
     const response = await db.find({
+      sort: ['order'],
       selector: appointmentId ? {
         patientId,
-        appointmentId
+        appointmentId,
+        order: { $exists: true }
       } : {
-        patientId
+        patientId,
+        order: { $exists: true }
       }
     })
-    return response.docs
+    return reverse(response.docs)
   }
 )
 
 const add = createAsyncThunk(
   'scans/add',
   async payload => {
-    console.info({ payload })
     const newScan = {
+      order: (await db.info()).doc_count,
       date: moment().format('YYYY-MM-DD @ HH:mm'),
       ...omit(payload, ['mesh'])
     }
@@ -38,6 +42,7 @@ const add = createAsyncThunk(
       id,
       'scan.ply',
       rev,
+      // eslint-disable-next-line no-undef
       new Blob([payload.mesh], { type: 'application/octet-stream' }),
       'application/octet-stream'
     )
@@ -60,10 +65,16 @@ const update = createAsyncThunk(
 const details = createAsyncThunk(
   'scans/details',
   async (id, { dispatch }) => {
-    const scan = await db.get(id, {
-      attachments: true
-    })
-    return scan
+    try {
+      const scan = await db.get(id, {
+        attachments: true
+      })
+      console.info({ scan })
+      return scan
+    } catch (e)
+    {
+      console.error(e)
+    }
   }
 )
 
@@ -125,6 +136,7 @@ const slice = createSlice({
     },
     [add.fulfilled]: (state, { payload }) => {
       state.current = payload
+      state.loading = false
     },
     [update.fulfilled]: (state, { payload }) => {
       state.current = payload

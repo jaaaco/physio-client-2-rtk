@@ -73,7 +73,6 @@ const remove = createAsyncThunk(
 
 const adapter = createEntityAdapter({
   sortComparer: (a, b) => {
-    console.info({ a, b })
     return b.visitDate.localeCompare(a.visitDate)
   },
   selectId: ({ _id }) => _id
