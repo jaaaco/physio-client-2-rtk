@@ -7,6 +7,9 @@ PouchDb.plugin(PouchDbFind)
 
 const db = new PouchDb('appointments')
 
+db.createIndex({ index: { fields: ['visitDate'] } })
+db.createIndex({ index: { fields: ['patientId'] } })
+
 const list = createAsyncThunk(
   'appointments/list',
   async ({ patientId }) => {
@@ -54,6 +57,23 @@ const details = createAsyncThunk(
     return appointment
   }
 )
+
+export async function getLastAppointment (patientId) {
+  try {
+    const lastAppointment = await db.find({
+      sort: [{ visitDate: 'desc' }],
+      limit: 1,
+      selector: {
+        patientId,
+        visitDate: { $exists: true }
+      }
+    })
+    console.info(lastAppointment)
+    return lastAppointment.docs[0] || null
+  } catch (e) {
+    console.error(e)
+  }
+}
 
 const editAppointment = createAsyncThunk(
   'appointments/edit',

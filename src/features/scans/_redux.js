@@ -69,7 +69,6 @@ const details = createAsyncThunk(
       const scan = await db.get(id, {
         attachments: true
       })
-      console.info({ scan })
       return scan
     } catch (e)
     {
@@ -80,6 +79,7 @@ const details = createAsyncThunk(
 
 export async function getLastScan (patientId) {
   const lastScan = await db.find({
+    limit: 1,
     sort: [{ order: 'desc' }],
     selector: {
       patientId,

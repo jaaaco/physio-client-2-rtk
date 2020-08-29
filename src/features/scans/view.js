@@ -2,7 +2,6 @@ import React from 'react'
 import { MeshViewer } from '@dev3dbody/mesh-viewer'
 
 const ScanView = ({ scan }) => {
-  console.info({ scan })
   if (!scan) {
     return null
   }

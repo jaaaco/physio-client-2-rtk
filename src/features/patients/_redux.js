@@ -6,6 +6,7 @@ import {
 import PouchDb from 'pouchdb'
 import DataLoader from 'dataloader'
 import { getLastScan } from '../scans/_redux'
+import { getLastAppointment } from '../appointments/_redux'
 
 const db = new PouchDb('patients')
 
@@ -55,7 +56,7 @@ const details = createAsyncThunk(
     const doc = await db.get(id, {
       attachments: false
     })
-    return { ...doc, lastScan: await getLastScan(id) }
+    return { ...doc, lastAppointment: await getLastAppointment(id), lastScan: await getLastScan(id) }
   }
 )
 

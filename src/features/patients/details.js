@@ -74,7 +74,7 @@ const PatientDetails = () => {
               {patient.birthDate}
             </p>
             <p>
-              <strong>Ostatnia wizyta: </strong>24.05.2017
+              <strong>Ostatnia wizyta: </strong> {patient.lastAppointment ? patient.lastAppointment.visitDate : '(brak)'}
             </p>
             <Header as='h4'>Inne informacje:</Header>
             <Segment>
