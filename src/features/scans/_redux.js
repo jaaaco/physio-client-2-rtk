@@ -3,19 +3,19 @@ import PouchDb from 'pouchdb'
 import PouchDbFind from 'pouchdb-find'
 import moment from 'moment'
 import omit from 'lodash/omit'
-import reverse from 'lodash/reverse'
 
 PouchDb.plugin(PouchDbFind)
 
 const db = new PouchDb('scans')
 
-db.createIndex({ index: { fields: ['order'] }})
+db.createIndex({ index: { fields: ['order'] } })
+db.createIndex({ index: { fields: ['patientId'] } })
 
 const list = createAsyncThunk(
   'scans/list',
   async ({ appointmentId, patientId }) => {
     const response = await db.find({
-      sort: ['order'],
+      sort: [{ order: 'desc' }],
       selector: appointmentId ? {
         patientId,
         appointmentId,
@@ -25,7 +25,7 @@ const list = createAsyncThunk(
         order: { $exists: true }
       }
     })
-    return reverse(response.docs)
+    return response.docs
   }
 )
 
@@ -77,6 +77,22 @@ const details = createAsyncThunk(
     }
   }
 )
+
+export async function getLastScan (patientId) {
+  const lastScan = await db.find({
+    sort: [{ order: 'desc' }],
+    selector: {
+      patientId,
+      order: { $exists: true }
+    }
+  })
+  if (lastScan.docs[0]) {
+    return db.get(lastScan.docs[0]._id, {
+      attachments: true
+    })
+  }
+  return null
+}
 
 const editScan = createAsyncThunk(
   'scans/edit',

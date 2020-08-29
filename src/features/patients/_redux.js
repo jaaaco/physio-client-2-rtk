@@ -5,6 +5,7 @@ import {
 } from '@reduxjs/toolkit'
 import PouchDb from 'pouchdb'
 import DataLoader from 'dataloader'
+import { getLastScan } from '../scans/_redux'
 
 const db = new PouchDb('patients')
 
@@ -51,9 +52,10 @@ const update = createAsyncThunk(
 const details = createAsyncThunk(
   'patients/details',
   async id => {
-    return db.get(id, {
+    const doc = await db.get(id, {
       attachments: false
     })
+    return { ...doc, lastScan: await getLastScan(id) }
   }
 )
 

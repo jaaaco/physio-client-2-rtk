@@ -12,6 +12,7 @@ import {
 import { actions, selectors } from './_redux'
 import { actions as appointmentActions } from '../appointments/_redux'
 import { AppointmentList } from '../appointments'
+import { ScanView } from '../scans'
 
 const PatientDetails = () => {
   const patient = useSelector(selectors.current)
@@ -23,12 +24,12 @@ const PatientDetails = () => {
 
   return (
     <Container>
-      <Grid columns="equal">
+      <Grid columns='equal'>
         <Grid.Row>
           <Grid.Column>
-            <Header as="h2">
-              <Icon name="user circle" />
-              <Header.Content data-cy="patient-header-content">
+            <Header as='h2'>
+              <Icon name='user circle' />
+              <Header.Content data-cy='patient-header-content'>
                 {patient.name} {patient.surname}
                 <Header.Subheader>Szczegóły Pacjenta</Header.Subheader>
               </Header.Content>
@@ -37,20 +38,20 @@ const PatientDetails = () => {
           <Grid.Column>
             <Button.Group
               primary
-              floated="right"
+              floated='right'
               onClick={() => dispatch(appointmentActions.newAppointment())}
             >
-              <Button primary data-cy="new-appointment">
-                <Icon name="add to calendar" />
+              <Button primary data-cy='new-appointment'>
+                <Icon name='add to calendar' />
                 Nowa wizyta
               </Button>
               <Dropdown
                 floating
-                data-cy="dropdown-button-icon"
+                data-cy='dropdown-button-icon'
                 onChange={() => {
                   dispatch(actions.editPatient(patient._id))
                 }}
-                className="button icon"
+                className='button icon'
                 options={[
                   {
                     key: 'edit',
@@ -59,7 +60,7 @@ const PatientDetails = () => {
                     value: 'edit'
                   }
                 ]}
-                trigger={<React.Fragment />}
+                trigger={<></>}
               />
             </Button.Group>
           </Grid.Column>
@@ -75,31 +76,33 @@ const PatientDetails = () => {
             <p>
               <strong>Ostatnia wizyta: </strong>24.05.2017
             </p>
-            <Header as="h4">Inne informacje:</Header>
+            <Header as='h4'>Inne informacje:</Header>
             <Segment>
               {patient.comment.split('\n').map((line, key) => (
                 <p key={key}>{line}</p>
               ))}
             </Segment>
-            <Header as="h3" style={{ margin: '2em 0 1em 0' }}>
+            <Header as='h3' style={{ margin: '2em 0 1em 0' }}>
               Ostatnie wizyty
             </Header>
             <AppointmentList />
           </Grid.Column>
           <Grid.Column width={9} style={{ padding: '0 0 3em 2em' }}>
-            <Header as="h4">Ostatnie badanie - 02.02.2017, 09:00</Header>
-            <Segment>
-              // TODO: last scan here
-            </Segment>
+            <Header as='h4'>Ostatnie badanie - {patient.lastScan ? patient.lastScan.date : '(brak)'}</Header>
+            {patient.lastScan &&
+              <Segment>
+                <ScanView scan={patient.lastScan} />
+              </Segment>
+            }
           </Grid.Column>
         </Grid.Row>
       </Grid>
       <Button
-        data-cy="back-button"
+        data-cy='back-button'
         onClick={() => dispatch(actions.list())}
         basic
       >
-        <Icon name="arrow left" /> Wróć
+        <Icon name='arrow left' /> Wróć
       </Button>
     </Container>
   )

@@ -3,12 +3,12 @@ import _ from 'lodash'
 import { Button, Container, Dropdown, Header, Icon, Divider } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux'
 import ScanComment from './comment'
+import ScanView from './view'
 
 import { actions as appointmentActions, selectors as appointmentSelectors } from '../appointments/_redux'
 import { selectors as patientSelectors } from '../patients/_redux'
 import { actions, selectors } from './_redux'
 import { selectors as compareSelectors, actions as compareActions } from '../compare/_redux'
-import { MeshViewer } from '@dev3dbody/mesh-viewer'
 
 const StanDetails = () => {
   const scan = useSelector(selectors.current)
@@ -19,16 +19,6 @@ const StanDetails = () => {
 
   if (!scan || !patient || !appointment) {
     return null
-  }
-
-  function base64ToArrayBuffer (base64) {
-    var binaryString = window.atob(base64)
-    var len = binaryString.length
-    var bytes = new Uint8Array(len)
-    for (var i = 0; i < len; i++) {
-      bytes[i] = binaryString.charCodeAt(i)
-    }
-    return bytes.buffer
   }
 
   return (
@@ -67,7 +57,7 @@ const StanDetails = () => {
           </Header.Subheader>
         </Header.Content>
       </Header>
-      <MeshViewer mesh={base64ToArrayBuffer(scan._attachments['scan.ply'].data)} />
+      <ScanView scan={scan} />
       <Divider section />
       <ScanComment scan={scan} />
       <Divider section />
