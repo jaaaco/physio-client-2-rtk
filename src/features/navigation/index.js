@@ -3,14 +3,14 @@ import { Input, Menu } from 'semantic-ui-react'
 import _ from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
 import { actions, selectors } from './_redux'
+import { selectors as compareSelectors } from '../compare/_redux'
 import { actions as patientActions } from '../patients/_redux'
-
-const getComparedScansCount = () => 0
 
 const Navigation = () => {
   const activeNavigation = useSelector(selectors.getNavigation)
-  const comparedScansCount = useSelector(getComparedScansCount)
+  const comparedScansCount = useSelector(compareSelectors.count)
   const dispatch = useDispatch()
+
   const items = [
     {
       name: 'Pacjenci',
@@ -21,7 +21,7 @@ const Navigation = () => {
   ]
 
   return (
-    <Menu data-cy="navigation" size="massive" pointing>
+    <Menu data-cy='navigation' size='massive' pointing>
       {items.map(({ name, values }) => (
         <Menu.Item
           data-cy={`top-navigation-${values[0]}`}
@@ -34,14 +34,14 @@ const Navigation = () => {
           }}
         />
       ))}
-      <Menu.Menu position="right">
+      <Menu.Menu position='right'>
         <Menu.Item
           disabled={!comparedScansCount}
           name={`Porównaj (${comparedScansCount})`}
           onClick={() => dispatch(actions.navigate('COMPARE'))}
         />
         <Menu.Item>
-          <Input icon="search" placeholder="Szukaj..." />
+          <Input icon='search' placeholder='Szukaj...' />
         </Menu.Item>
       </Menu.Menu>
     </Menu>

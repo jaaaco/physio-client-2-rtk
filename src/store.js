@@ -5,6 +5,7 @@ import appointments from './features/appointments/_redux'
 import settings from './features/settings/_redux'
 import flash from './features/flash/_redux'
 import scans from './features/scans/_redux'
+import compare from './features/compare/_redux'
 import flashMiddleware from './middlewares/flash'
 
 export default configureStore({
@@ -14,7 +15,8 @@ export default configureStore({
     appointments,
     settings,
     flash,
-    scans
+    scans,
+    compare
   },
   middleware: [...getDefaultMiddleware(), flashMiddleware]
 })
