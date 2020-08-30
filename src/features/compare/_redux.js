@@ -13,6 +13,9 @@ const slice = createSlice({
     },
     remove: (state, { payload }) => {
       state.items = without(state.items, payload)
+    },
+    clear: (state, { payload }) => {
+      state.items = []
     }
   }
 })

@@ -8,6 +8,7 @@ import { ScanDetails } from './features/scans'
 import Settings from './features/settings'
 import { useDispatch } from 'react-redux'
 import { actions } from './features/settings/_redux'
+import { ComparePage } from './features/compare'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -25,6 +26,7 @@ const App = () => {
           PATIENT_DETAILS: <PatientDetails />,
           APPOINTMENT_DETAILS: <AppointmentDetails />,
           SCAN_DETAILS: <ScanDetails />,
+          COMPARE: <ComparePage />,
           PATIENT: <PatientList />,
           APPOINTMENT: <AppointmentList />,
           SETTINGS: <Settings />,
