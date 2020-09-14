@@ -16,6 +16,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           registry-url: 'https://npm.pkg.github.com/dev3dbody'
+          scope: 'dev3dbody'
       - name: Cache node modules
         uses: actions/cache@v1
         env:
@@ -29,7 +30,7 @@ jobs:
             ${{ runner.os }}-
       - name: Install Packages
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
         run: npm install
       - name: E2E Test (cypress.io)
         uses: cypress-io/github-action@v1
