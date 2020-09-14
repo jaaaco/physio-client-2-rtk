@@ -5,7 +5,7 @@ context('setting', () => {
     cy.visit('/')
     cy.window().invoke('resetApp')
     cy.reload()
-    cy.wait(100)
+    cy.wait(1000)
   })
   it('navigates to settings page', () => {
     cy.get('[data-cy=top-navigation-SETTINGS').click()
@@ -18,7 +18,7 @@ context('setting', () => {
     cy.get('[data-cy=setting-save').click()
 
     cy.reload()
-    cy.wait(100)
+    cy.wait(1000)
     cy.get('[data-cy=top-navigation-SETTINGS').click()
     cy.get('[data-cy=setting-value] input:eq(0)').should('have.value', 'someotherhost')
     cy.get('[data-cy=setting-value] input:eq(1)').should('have.value', '8081')
