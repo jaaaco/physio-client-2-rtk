@@ -37,6 +37,7 @@ jobs:
         with:
           start: yarn start
           wait-on: 'http://10.1.0.4/'
+          wait-on-timeout: 120
           browser: chrome
           config: baseUrl=http://10.1.0.4
       - name: Build
