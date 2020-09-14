@@ -70,8 +70,21 @@ const details = createAsyncThunk(
         attachments: true
       })
       return scan
-    } catch (e)
-    {
+    } catch (e) {
+      console.error(e)
+    }
+  }
+)
+
+const load = createAsyncThunk(
+  'scans/load',
+  async (id, { dispatch }) => {
+    try {
+      const scan = await db.get(id, {
+        attachments: true
+      })
+      return scan
+    } catch (e) {
       console.error(e)
     }
   }
@@ -119,7 +132,8 @@ const slice = createSlice({
   initialState: adapter.getInitialState({
     loading: false,
     current: undefined,
-    error: null
+    error: null,
+    loadedScans: {}
   }),
   reducers: {
     add: adapter.addOne,
@@ -137,6 +151,14 @@ const slice = createSlice({
     [details.pending]: state => {
       state.current = undefined
       state.loading = true
+    },
+    [load.pending]: state => {
+      state.loading = true
+    },
+    [load.fulfilled]: (state, { payload }) => {
+      console.info({ payload })
+      state.loadedScans[payload._id] = payload
+      state.loading = false
     },
     [details.fulfilled]: (state, { payload }) => {
       state.current = payload
@@ -163,12 +185,13 @@ const slice = createSlice({
   }
 })
 
-export const actions = { update, add, remove, list, details, editScan }
+export const actions = { update, add, remove, list, details, editScan, load }
 
 export const selectors = {
   current: state => state.scans.current,
   loading: state => state.scans.loading,
-  ...adapter.getSelectors(state => state.scans)
+  ...adapter.getSelectors(state => state.scans),
+  loadedScans: state => state.scans.loadedScans
 }
 
 export default slice.reducer

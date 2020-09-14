@@ -1,11 +1,24 @@
 import React from 'react'
-import { Grid, GridColumn, Button, Header, Icon } from 'semantic-ui-react'
+import { Segment, Grid, GridColumn, Button, Header, Icon } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { actions, selectors } from './_redux'
+import { MeshViewerGroup } from '@dev3dbody/mesh-viewer'
+import ScanLoad from '../scans/load'
 
 const ComparePage = () => {
   const dispatch = useDispatch()
   const scans = useSelector(selectors.selectAll)
+
+  if (!scans.length) {
+    return (
+      <Segment placeholder>
+        <Header icon>
+          <Icon name='search' />
+          Lista skanów do porównania jest pusta.
+        </Header>
+      </Segment>
+    )
+  }
 
   return (
     <>
@@ -26,23 +39,25 @@ const ComparePage = () => {
           <Header.Subheader>Zsynchronizowane</Header.Subheader>
         </Header.Content>
       </Header>
-      <Grid columns='3'>
-        {scans.map(scanId => (
-          <GridColumn key={scanId}>
-            <p>TODO MeshViewer</p>
-            <Button
-              negative
-              onClick={e => {
-                e.stopPropagation()
-                dispatch(actions.remove(scanId))
-              }}
-            >
-              <Icon name='trash' />
-              Usuń z porównania
-            </Button>
-          </GridColumn>
-        ))}
-      </Grid>
+      <MeshViewerGroup>
+        <Grid columns='3'>
+          {scans.map(scanId => (
+            <GridColumn key={scanId}>
+              <ScanLoad scanId={scanId} />
+              <Button
+                negative
+                onClick={e => {
+                  e.stopPropagation()
+                  dispatch(actions.remove(scanId))
+                }}
+              >
+                <Icon name='trash' />
+                Usuń z porównania
+              </Button>
+            </GridColumn>
+          ))}
+        </Grid>
+      </MeshViewerGroup>
     </>
   )
 }

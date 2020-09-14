@@ -1,9 +1,16 @@
 import React from 'react'
 import { MeshViewer } from '@dev3dbody/mesh-viewer'
+import { Dimmer, Loader, Segment } from 'semantic-ui-react'
 
-const ScanView = ({ scan }) => {
-  if (!scan) {
-    return null
+const ScanView = ({ loading, scan }) => {
+  if (loading || !scan) {
+    return (
+      <Segment style={{ height: '730px' }}>
+        <Dimmer active>
+          <Loader />
+        </Dimmer>
+      </Segment>
+    )
   }
 
   function base64ToArrayBuffer (base64) {
@@ -17,7 +24,9 @@ const ScanView = ({ scan }) => {
   }
 
   return (
-    <MeshViewer mesh={base64ToArrayBuffer(scan._attachments['scan.ply'].data)} />
+    <Segment>
+      <MeshViewer mesh={base64ToArrayBuffer(scan._attachments['scan.ply'].data)} />
+    </Segment>
   )
 }
 
