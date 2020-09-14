@@ -1,26 +1,26 @@
 {
   "files": {
     "main.css": "/physio-client-2-rtk/static/css/main.33a2bf07.chunk.css",
-    "main.js": "/physio-client-2-rtk/static/js/main.7c5713c4.chunk.js",
-    "main.js.map": "/physio-client-2-rtk/static/js/main.7c5713c4.chunk.js.map",
-    "runtime-main.js": "/physio-client-2-rtk/static/js/runtime-main.b158d811.js",
-    "runtime-main.js.map": "/physio-client-2-rtk/static/js/runtime-main.b158d811.js.map",
-    "static/css/2.3ec4deee.chunk.css": "/physio-client-2-rtk/static/css/2.3ec4deee.chunk.css",
-    "static/js/2.7027cc6d.chunk.js": "/physio-client-2-rtk/static/js/2.7027cc6d.chunk.js",
-    "static/js/2.7027cc6d.chunk.js.map": "/physio-client-2-rtk/static/js/2.7027cc6d.chunk.js.map",
+    "main.js": "/physio-client-2-rtk/static/js/main.e04655a5.chunk.js",
+    "main.js.map": "/physio-client-2-rtk/static/js/main.e04655a5.chunk.js.map",
+    "runtime-main.js": "/physio-client-2-rtk/static/js/runtime-main.3212333f.js",
+    "runtime-main.js.map": "/physio-client-2-rtk/static/js/runtime-main.3212333f.js.map",
+    "static/css/2.2efff48d.chunk.css": "/physio-client-2-rtk/static/css/2.2efff48d.chunk.css",
+    "static/js/2.d6712df3.chunk.js": "/physio-client-2-rtk/static/js/2.d6712df3.chunk.js",
+    "static/js/2.d6712df3.chunk.js.map": "/physio-client-2-rtk/static/js/2.d6712df3.chunk.js.map",
     "index.html": "/physio-client-2-rtk/index.html",
-    "precache-manifest.f65d7b364eead1dc6a195cb514ea1453.js": "/physio-client-2-rtk/precache-manifest.f65d7b364eead1dc6a195cb514ea1453.js",
+    "precache-manifest.0854fca649518d2637e58077d2ca987b.js": "/physio-client-2-rtk/precache-manifest.0854fca649518d2637e58077d2ca987b.js",
     "service-worker.js": "/physio-client-2-rtk/service-worker.js",
-    "static/css/2.3ec4deee.chunk.css.map": "/physio-client-2-rtk/static/css/2.3ec4deee.chunk.css.map",
+    "static/css/2.2efff48d.chunk.css.map": "/physio-client-2-rtk/static/css/2.2efff48d.chunk.css.map",
     "static/css/main.33a2bf07.chunk.css.map": "/physio-client-2-rtk/static/css/main.33a2bf07.chunk.css.map",
-    "static/js/2.7027cc6d.chunk.js.LICENSE.txt": "/physio-client-2-rtk/static/js/2.7027cc6d.chunk.js.LICENSE.txt",
+    "static/js/2.d6712df3.chunk.js.LICENSE.txt": "/physio-client-2-rtk/static/js/2.d6712df3.chunk.js.LICENSE.txt",
     "static/media/semantic.min.css": "/physio-client-2-rtk/static/media/outline-icons.ef60a4f6.woff"
   },
   "entrypoints": [
-    "static/js/runtime-main.b158d811.js",
-    "static/css/2.3ec4deee.chunk.css",
-    "static/js/2.7027cc6d.chunk.js",
+    "static/js/runtime-main.3212333f.js",
+    "static/css/2.2efff48d.chunk.css",
+    "static/js/2.d6712df3.chunk.js",
     "static/css/main.33a2bf07.chunk.css",
-    "static/js/main.7c5713c4.chunk.js"
+    "static/js/main.e04655a5.chunk.js"
   ]
 }
