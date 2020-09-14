@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import _ from 'lodash'
+import React from 'react'
 import { Button, Container, Dropdown, Header, Icon, Divider } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux'
 import ScanComment from './comment'
@@ -8,7 +7,7 @@ import ScanView from './view'
 import { actions as appointmentActions, selectors as appointmentSelectors } from '../appointments/_redux'
 import { selectors as patientSelectors } from '../patients/_redux'
 import { actions, selectors } from './_redux'
-import { selectors as compareSelectors, actions as compareActions } from '../compare/_redux'
+import { actions as compareActions } from '../compare/_redux'
 
 const StanDetails = () => {
   const scan = useSelector(selectors.current)
@@ -37,13 +36,24 @@ const StanDetails = () => {
           {isCompared ? 'Usuń z porównania' : 'Dodaj do porównania'}
         </Button>
         <Dropdown
-          onChange={() => {
-            dispatch(actions.remove(scan))
-            dispatch(appointmentActions.details(appointment._id))
+          onChange={(e, { value }) => {
+            const exportLink = document.createElement('a')
+            switch (value) {
+              case 'remove':
+                dispatch(actions.remove(scan))
+                dispatch(appointmentActions.details(appointment._id))
+                break
+              case 'export':
+                exportLink.href = 'data:application/octet-stream;base64,' + scan._attachments['scan.ply'].data
+                exportLink.download = `badanie_${scan.order}.ply`
+                exportLink.click()
+                break
+            }
           }}
           className='button icon'
           options={[
-            { key: 'edit', icon: 'delete', text: 'Usuń', value: 'edit' }
+            { keg: 'export', icon: 'file', text: 'Zapisz do pliku', value: 'export' },
+            { key: 'remove', icon: 'delete', text: 'Usuń', value: 'remove' }
           ]}
           trigger={<></>}
         />
