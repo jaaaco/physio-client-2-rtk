@@ -33,11 +33,12 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
         run: npm install
       - name: E2E Test (cypress.io)
-        uses: cypress-io/github-action@v1
+        uses: cypress-io/github-action@v2
         with:
           start: yarn start
           wait-on: 'http://10.1.0.4/'
           browser: chrome
+          config: baseUrl=http://10.1.0.4
       - name: Build
         run: npm run build
         env:
