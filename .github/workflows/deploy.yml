@@ -41,8 +41,8 @@ jobs:
 #          browser: chrome
 #          config: baseUrl=http://10.1.0.4
       - run:
-        name: Add build number in browser window title
-        command: sed -i -e 's/%VERSION%/'"$CIRCLE_BUILD_NUM"'/g' public/index.html
+          name: Add build number in browser window title
+          command: sed -i -e 's/%VERSION%/'"$CIRCLE_BUILD_NUM"'/g' public/index.html
       - name: Build
         run: npm run build
         env:
