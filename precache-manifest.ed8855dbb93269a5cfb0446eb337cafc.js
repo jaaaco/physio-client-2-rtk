@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "96ea0aa40c91211095c39e09d2213954",
+    "revision": "9073641531642cdc7ae1e3b04c85b1cd",
     "url": "/physio-client-2-rtk/index.html"
   },
   {
