@@ -40,7 +40,7 @@ jobs:
 #          wait-on-timeout: 120
 #          browser: chrome
 #          config: baseUrl=http://10.1.0.4
-      - run: sed -i -e 's/%VERSION%/'"$GITHUB_RUN_ID"'/g' public/index.html
+      - run: sed -i -e 's/%VERSION%/'"$GITHUB_RUN_NUMBER"'/g' public/index.html
       - name: Build
         run: npm run build
         env:
